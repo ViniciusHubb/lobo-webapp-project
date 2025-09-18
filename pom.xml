@@ -27,6 +27,7 @@
         <module>discovery-service</module>
         <module>api-gateway</module>
         <module>usuarios-service</module>
+        <module>ocorrencias-service</module>
     </modules>
 
 

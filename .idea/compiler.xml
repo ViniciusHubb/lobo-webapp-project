@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="api-gateway" />
         <module name="usuarios-service" />
+        <module name="ocorrencias-service" />
         <module name="discovery-service" />
       </profile>
     </annotationProcessing>
@@ -17,6 +18,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-gateway" options="-parameters" />
       <module name="discovery-service" options="-parameters" />
+      <module name="ocorrencias-service" options="-parameters" />
       <module name="usuarios-service" options="-parameters" />
     </option>
   </component>
