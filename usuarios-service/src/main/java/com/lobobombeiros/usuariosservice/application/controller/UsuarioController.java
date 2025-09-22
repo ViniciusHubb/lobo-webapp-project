@@ -1,5 +1,7 @@
 package com.lobobombeiros.usuariosservice.application.controller;
 
+import com.lobobombeiros.usuariosservice.application.dto.EmailRequest;
+import com.lobobombeiros.usuariosservice.application.dto.RedefinirSenhaRequest;
 import com.lobobombeiros.usuariosservice.application.dto.UsuarioRequest;
 import com.lobobombeiros.usuariosservice.application.dto.UsuarioResponse;
 import com.lobobombeiros.usuariosservice.application.service.UsuarioService;
@@ -23,6 +25,25 @@ public class UsuarioController {
     public ResponseEntity<UsuarioResponse> criarUsuario(@RequestBody UsuarioRequest usuarioRequest) {
         UsuarioResponse usuario = usuarioService.criarUsuario(usuarioRequest);
         return new ResponseEntity<>(usuario, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UsuarioResponse> editarUsuario(@PathVariable Long id, @RequestBody UsuarioRequest usuarioRequest) {
+        return usuarioService.editarUsuario(id, usuarioRequest)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/solicitar-redefinicao-senha")
+    public ResponseEntity<Void> solicitarRedefinicaoSenha(@RequestBody EmailRequest request) {
+        usuarioService.solicitarRedefinicaoSenha(request.getEmail());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/redefinir-senha")
+    public ResponseEntity<Void> redefinirSenha(@RequestBody RedefinirSenhaRequest request) {
+        boolean sucesso = usuarioService.redefinirSenha(request.getToken(), request.getNovaSenha());
+        return sucesso ? ResponseEntity.noContent().build() : ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/{id}")

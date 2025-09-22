@@ -7,8 +7,10 @@ import com.lobobombeiros.usuariosservice.application.dto.UsuarioResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,10 +18,12 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, EmailService emailService) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     public UsuarioResponse criarUsuario(UsuarioRequest usuarioRequest) {
@@ -30,6 +34,41 @@ public class UsuarioService {
         usuario.setPerfil(usuarioRequest.getPerfil());
         Usuario savedUsuario = usuarioRepository.save(usuario);
         return toResponse(savedUsuario);
+    }
+
+    public Optional<UsuarioResponse> editarUsuario(Long id, UsuarioRequest usuarioRequest) {
+        return usuarioRepository.findById(id).map(usuario -> {
+            usuario.setNomeCompleto(usuarioRequest.getNomeCompleto());
+            usuario.setEmail(usuarioRequest.getEmail());
+            usuario.setPerfil(usuarioRequest.getPerfil());
+            Usuario updatedUsuario = usuarioRepository.save(usuario);
+            return toResponse(updatedUsuario);
+        });
+    }
+
+    public void solicitarRedefinicaoSenha(String email) {
+        usuarioRepository.findByEmail(email).ifPresent(usuario -> {
+            String token = UUID.randomUUID().toString();
+            usuario.setResetPasswordToken(token);
+            usuario.setResetPasswordTokenExpiry(LocalDateTime.now().plusHours(1)); // Token válido por 1 hora
+            usuarioRepository.save(usuario);
+            emailService.sendPasswordResetEmail(usuario.getEmail(), token);
+        });
+    }
+
+    public boolean redefinirSenha(String token, String novaSenha) {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByResetPasswordToken(token);
+        if (usuarioOptional.isPresent()) {
+            Usuario usuario = usuarioOptional.get();
+            if (usuario.getResetPasswordTokenExpiry().isAfter(LocalDateTime.now())) {
+                usuario.setSenha(passwordEncoder.encode(novaSenha));
+                usuario.setResetPasswordToken(null);
+                usuario.setResetPasswordTokenExpiry(null);
+                usuarioRepository.save(usuario);
+                return true;
+            }
+        }
+        return false;
     }
 
     public Optional<UsuarioResponse> getUsuarioById(Long id) {

@@ -8,8 +8,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="api-gateway" />
-        <module name="usuarios-service" />
         <module name="ocorrencias-service" />
+        <module name="usuarios-service" />
         <module name="discovery-service" />
       </profile>
     </annotationProcessing>
