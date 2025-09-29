@@ -4,6 +4,7 @@ import com.lobobombeiros.ocorrencias.application.dto.OcorrenciaDTO;
 import com.lobobombeiros.ocorrencias.application.services.OcorrenciaService;
 import com.lobobombeiros.ocorrencias.domain.OcorrenciaTipo;
 import com.lobobombeiros.ocorrencias.domain.Regiao;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,12 +30,14 @@ public class OcorrenciaController {
     }
 
     @PostMapping
+    @Operation(description = "Criar ocorrência. Permissão: ADMIN, CHEFE, OPERADOR.")
     public ResponseEntity<OcorrenciaDTO> criar(@RequestBody OcorrenciaDTO dto) {
         OcorrenciaDTO created = ocorrenciaService.criar(dto);
         return ResponseEntity.created(URI.create("/api/ocorrencias/" + created.getId())).body(created);
     }
 
     @GetMapping
+    @Operation(description = "Listar ocorrências. Permissão: ADMIN, CHEFE, ANALISTA.")
     public ResponseEntity<Page<OcorrenciaDTO>> listar(
             @RequestParam(required = false) String status,
             @RequestParam(required = false) Regiao regiao,
@@ -47,6 +50,7 @@ public class OcorrenciaController {
     }
 
     @GetMapping("/dashboard")
+    @Operation(description = "Visualizar dashboard de ocorrências. Permissão: ADMIN, CHEFE, ANALISTA.")
     public ResponseEntity<Map<String, Object>> getDashboardStats(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim) {
@@ -57,6 +61,7 @@ public class OcorrenciaController {
     }
 
     @GetMapping("/export/csv")
+    @Operation(description = "Exportar ocorrências em CSV. Permissão: ADMIN, CHEFE, ANALISTA.")
     public ResponseEntity<String> exportarCsv() {
         String csv = ocorrenciaService.exportarCsv();
         HttpHeaders headers = new HttpHeaders();
@@ -66,6 +71,7 @@ public class OcorrenciaController {
     }
 
     @GetMapping("/export/pdf")
+    @Operation(description = "Exportar ocorrências em PDF. Permissão: ADMIN, CHEFE, ANALISTA.")
     public ResponseEntity<InputStreamResource> exportarPdf() {
         var bis = ocorrenciaService.exportarPdf();
         HttpHeaders headers = new HttpHeaders();
@@ -78,18 +84,21 @@ public class OcorrenciaController {
     }
 
     @GetMapping("/{id}")
+    @Operation(description = "Consultar ocorrência por ID. Permissão: ADMIN, CHEFE, ANALISTA.")
     public ResponseEntity<OcorrenciaDTO> buscarPorId(@PathVariable Long id) {
         OcorrenciaDTO dto = ocorrenciaService.buscarPorId(id);
         return dto != null ? ResponseEntity.ok(dto) : ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
+    @Operation(description = "Editar ocorrência. Permissão: ADMIN, CHEFE.")
     public ResponseEntity<OcorrenciaDTO> atualizar(@PathVariable Long id, @RequestBody OcorrenciaDTO dto) {
         OcorrenciaDTO updatedDto = ocorrenciaService.atualizar(id, dto);
         return updatedDto != null ? ResponseEntity.ok(updatedDto) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
+    @Operation(description = "Excluir ocorrência. Permissão: ADMIN.")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         ocorrenciaService.deletar(id);
         return ResponseEntity.noContent().build();
