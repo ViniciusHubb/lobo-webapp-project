@@ -23,8 +23,6 @@ public class EmailService {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(to);
             message.setSubject("Redefinição de Senha");
-
-            // TODO: Substituir "http://localhost:4200" pela URL do seu frontend
             String resetUrl = "http://localhost:4200/redefinir-senha?token=" + token;
             message.setText("Para redefinir sua senha, clique no link abaixo:\n" + resetUrl);
 

@@ -1,6 +1,7 @@
 package com.lobobombeiros.usuariosservice.application.controller;
 
 import com.lobobombeiros.usuariosservice.application.dto.EmailRequest;
+import com.lobobombeiros.usuariosservice.application.dto.InternalUserResponse;
 import com.lobobombeiros.usuariosservice.application.dto.RedefinirSenhaRequest;
 import com.lobobombeiros.usuariosservice.application.dto.UsuarioRequest;
 import com.lobobombeiros.usuariosservice.application.dto.UsuarioResponse;
@@ -63,5 +64,12 @@ public class UsuarioController {
     public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
         usuarioService.deleteUsuario(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/internal/by-email/{email}")
+    public ResponseEntity<InternalUserResponse> getInternalUserByEmail(@PathVariable String email) {
+        return usuarioService.getInternalUserByEmail(email)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }

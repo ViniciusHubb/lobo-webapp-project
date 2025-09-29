@@ -1,6 +1,7 @@
 package com.lobobombeiros.ocorrencias.application.services;
 
 import com.lobobombeiros.ocorrencias.application.dto.OcorrenciaDTO;
+import com.lobobombeiros.ocorrencias.application.mapper.OcorrenciaMapper;
 import com.lobobombeiros.ocorrencias.domain.*;
 import com.lowagie.text.Document;
 import com.lowagie.text.PageSize;
@@ -21,32 +22,41 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class OcorrenciaService {
 
     private final OcorrenciaRepository ocorrenciaRepository;
+    private final OcorrenciaMapper ocorrenciaMapper;
 
-    public OcorrenciaService(OcorrenciaRepository ocorrenciaRepository) {
+    public OcorrenciaService(OcorrenciaRepository ocorrenciaRepository, OcorrenciaMapper ocorrenciaMapper) {
         this.ocorrenciaRepository = ocorrenciaRepository;
+        this.ocorrenciaMapper = ocorrenciaMapper;
     }
 
     public OcorrenciaDTO criar(OcorrenciaDTO dto) {
-        Ocorrencia ocorrencia = toEntity(dto);
+        Ocorrencia ocorrencia = ocorrenciaMapper.toEntity(dto);
         // A data de abertura e o usuário de criação são definidos pela auditoria
         ocorrencia = ocorrenciaRepository.save(ocorrencia);
-        return toDTO(ocorrencia);
+        return ocorrenciaMapper.toDTO(ocorrencia);
     }
 
-    public Page<OcorrenciaDTO> listar(String status, String regiao, OcorrenciaTipo tipo, LocalDateTime dataInicio, LocalDateTime dataFim, Pageable pageable) {
-        Specification<Ocorrencia> spec = (root, query, criteriaBuilder) -> {
+    public Page<OcorrenciaDTO> listar(String status, Regiao regiao, String cidade, OcorrenciaTipo tipo, LocalDateTime dataInicio, LocalDateTime dataFim, Pageable pageable) {
+        Specification<Ocorrencia> spec = buildSpecification(status, regiao, cidade, tipo, dataInicio, dataFim);
+        return ocorrenciaRepository.findAll(spec, pageable).map(ocorrenciaMapper::toDTO);
+    }
+
+    private Specification<Ocorrencia> buildSpecification(String status, Regiao regiao, String cidade, OcorrenciaTipo tipo, LocalDateTime dataInicio, LocalDateTime dataFim) {
+        return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (status != null && !status.isEmpty()) {
                 predicates.add(criteriaBuilder.equal(root.get("status"), status));
             }
-            if (regiao != null && !regiao.isEmpty()) {
+            if (regiao != null) {
                 predicates.add(criteriaBuilder.equal(root.get("regiao"), regiao));
+            }
+            if (cidade != null && !cidade.isEmpty()) {
+                predicates.add(criteriaBuilder.equal(root.get("cidade"), cidade));
             }
             if (tipo != null) {
                 predicates.add(criteriaBuilder.equal(root.get("tipo"), tipo));
@@ -59,11 +69,10 @@ public class OcorrenciaService {
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
-        return ocorrenciaRepository.findAll(spec, pageable).map(this::toDTO);
     }
 
     public OcorrenciaDTO buscarPorId(Long id) {
-        return ocorrenciaRepository.findById(id).map(this::toDTO).orElse(null);
+        return ocorrenciaRepository.findById(id).map(ocorrenciaMapper::toDTO).orElse(null);
     }
 
     public OcorrenciaDTO atualizar(Long id, OcorrenciaDTO dto) {
@@ -76,9 +85,10 @@ public class OcorrenciaService {
             ocorrencia.setLongitude(dto.getLongitude());
             ocorrencia.setSolicitante(dto.getSolicitante());
             ocorrencia.setRegiao(dto.getRegiao());
+            ocorrencia.setCidade(dto.getCidade());
             // A data de atualização e o usuário são definidos pela auditoria
             ocorrencia = ocorrenciaRepository.save(ocorrencia);
-            return toDTO(ocorrencia);
+            return ocorrenciaMapper.toDTO(ocorrencia);
         }).orElse(null);
     }
 
@@ -101,7 +111,7 @@ public class OcorrenciaService {
         try (PrintWriter pw = new PrintWriter(sw)) {
             pw.println("ID,Titulo,Tipo,Status,Regiao,Data Abertura");
             ocorrencias.forEach(o ->
-                pw.printf("%d,%s,%s,%s,%s,%s\n",
+                pw.printf("%d,%s,%s,%s,%s,%s%n",
                     o.getId(), o.getTitulo(), o.getTipo(), o.getStatus(), o.getRegiao(), o.getDataHoraAbertura())
             );
         }
@@ -128,41 +138,5 @@ public class OcorrenciaService {
 
         document.close();
         return new ByteArrayInputStream(out.toByteArray());
-    }
-
-    private OcorrenciaDTO toDTO(Ocorrencia ocorrencia) {
-        OcorrenciaDTO dto = new OcorrenciaDTO();
-        dto.setId(ocorrencia.getId());
-        dto.setTitulo(ocorrencia.getTitulo());
-        dto.setDescricao(ocorrencia.getDescricao());
-        dto.setSolicitante(ocorrencia.getSolicitante());
-        dto.setRegiao(ocorrencia.getRegiao());
-        dto.setDataHoraAbertura(ocorrencia.getDataHoraAbertura());
-        dto.setDataHoraAtualizacao(ocorrencia.getDataHoraAtualizacao());
-        dto.setStatus(ocorrencia.getStatus());
-        dto.setTipo(ocorrencia.getTipo());
-        dto.setLatitude(ocorrencia.getLatitude());
-        dto.setLongitude(ocorrencia.getLongitude());
-        dto.setHistorico(ocorrencia.getHistorico());
-        dto.setAnexos(ocorrencia.getAnexos());
-        dto.setCriadoPor(ocorrencia.getCriadoPor());
-        dto.setAtualizadoPor(ocorrencia.getAtualizadoPor());
-        return dto;
-    }
-
-    private Ocorrencia toEntity(OcorrenciaDTO dto) {
-        Ocorrencia ocorrencia = new Ocorrencia();
-        ocorrencia.setId(dto.getId());
-        ocorrencia.setTitulo(dto.getTitulo());
-        ocorrencia.setDescricao(dto.getDescricao());
-        ocorrencia.setSolicitante(dto.getSolicitante());
-        ocorrencia.setRegiao(dto.getRegiao());
-        ocorrencia.setStatus(dto.getStatus());
-        ocorrencia.setTipo(dto.getTipo());
-        ocorrencia.setLatitude(dto.getLatitude());
-        ocorrencia.setLongitude(dto.getLongitude());
-        ocorrencia.setHistorico(dto.getHistorico());
-        ocorrencia.setAnexos(dto.getAnexos());
-        return ocorrencia;
     }
 }

@@ -8,11 +8,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
     private final UsuarioRepository usuarioRepository;
 
@@ -25,6 +29,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         Usuario usuario = usuarioRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado com o e-mail: " + username));
 
+        LOGGER.info("Carregando usuário para autenticação: email={} perfil={}", usuario.getEmail(), usuario.getPerfil());
+
         return new User(
                 usuario.getEmail(),
                 usuario.getSenha(),
@@ -32,4 +38,3 @@ public class CustomUserDetailsService implements UserDetailsService {
         );
     }
 }
-

@@ -1,9 +1,11 @@
 package com.lobobombeiros.usuariosservice.application.service;
 
-import com.lobobombeiros.usuariosservice.domain.model.Usuario;
-import com.lobobombeiros.usuariosservice.domain.repository.UsuarioRepository;
+import com.lobobombeiros.usuariosservice.application.dto.InternalUserResponse;
 import com.lobobombeiros.usuariosservice.application.dto.UsuarioRequest;
 import com.lobobombeiros.usuariosservice.application.dto.UsuarioResponse;
+import com.lobobombeiros.usuariosservice.application.mapper.UsuarioMapper;
+import com.lobobombeiros.usuariosservice.domain.model.Usuario;
+import com.lobobombeiros.usuariosservice.domain.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -19,21 +20,20 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+    private final UsuarioMapper usuarioMapper;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, EmailService emailService) {
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, EmailService emailService, UsuarioMapper usuarioMapper) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
+        this.usuarioMapper = usuarioMapper;
     }
 
     public UsuarioResponse criarUsuario(UsuarioRequest usuarioRequest) {
-        Usuario usuario = new Usuario();
-        usuario.setNomeCompleto(usuarioRequest.getNomeCompleto());
-        usuario.setEmail(usuarioRequest.getEmail());
+        Usuario usuario = usuarioMapper.toEntity(usuarioRequest);
         usuario.setSenha(passwordEncoder.encode(usuarioRequest.getSenha()));
-        usuario.setPerfil(usuarioRequest.getPerfil());
         Usuario savedUsuario = usuarioRepository.save(usuario);
-        return toResponse(savedUsuario);
+        return usuarioMapper.toResponse(savedUsuario);
     }
 
     public Optional<UsuarioResponse> editarUsuario(Long id, UsuarioRequest usuarioRequest) {
@@ -41,8 +41,9 @@ public class UsuarioService {
             usuario.setNomeCompleto(usuarioRequest.getNomeCompleto());
             usuario.setEmail(usuarioRequest.getEmail());
             usuario.setPerfil(usuarioRequest.getPerfil());
+            usuario.setRegiao(usuarioRequest.getRegiao());
             Usuario updatedUsuario = usuarioRepository.save(usuario);
-            return toResponse(updatedUsuario);
+            return usuarioMapper.toResponse(updatedUsuario);
         });
     }
 
@@ -72,23 +73,19 @@ public class UsuarioService {
     }
 
     public Optional<UsuarioResponse> getUsuarioById(Long id) {
-        return usuarioRepository.findById(id).map(this::toResponse);
+        return usuarioRepository.findById(id).map(usuarioMapper::toResponse);
     }
 
     public List<UsuarioResponse> getAllUsuarios() {
-        return usuarioRepository.findAll().stream().map(this::toResponse).collect(Collectors.toList());
+        return usuarioRepository.findAll().stream().map(usuarioMapper::toResponse).toList();
     }
 
     public void deleteUsuario(Long id) {
         usuarioRepository.deleteById(id);
     }
 
-    private UsuarioResponse toResponse(Usuario usuario) {
-        UsuarioResponse response = new UsuarioResponse();
-        response.setId(usuario.getId());
-        response.setNomeCompleto(usuario.getNomeCompleto());
-        response.setEmail(usuario.getEmail());
-        response.setPerfil(usuario.getPerfil());
-        return response;
+    @SuppressWarnings("unused")
+    public Optional<InternalUserResponse> getInternalUserByEmail(String email) {
+        return usuarioRepository.findByEmail(email).map(usuarioMapper::toInternalResponse);
     }
 }

@@ -28,6 +28,9 @@ public class Usuario {
     @Column(nullable = false)
     private Perfil perfil;
 
+    @Enumerated(EnumType.STRING)
+    private Regiao regiao;
+
     private String resetPasswordToken;
 
     private LocalDateTime resetPasswordTokenExpiry;

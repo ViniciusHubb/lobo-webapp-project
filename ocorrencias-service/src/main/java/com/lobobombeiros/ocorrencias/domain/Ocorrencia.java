@@ -23,7 +23,11 @@ public class Ocorrencia {
     private String titulo;
     private String descricao;
     private String solicitante;
-    private String regiao;
+
+    @Enumerated(EnumType.STRING)
+    private Regiao regiao;
+
+    private String cidade;
 
     @CreatedDate
     private LocalDateTime dataHoraAbertura;

@@ -1,0 +1,18 @@
+2025-09-22 21:28:40.607572-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USUARIO" not found (this database is empty); SQL statement:
+select u1_0.id,u1_0.email,u1_0.nome_completo,u1_0.perfil,u1_0.regiao,u1_0.reset_password_token,u1_0.reset_password_token_expiry,u1_0.senha from usuario u1_0 where u1_0.email=? [42104-224]
+2025-09-22 21:31:00.422688-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USUARIO" not found (this database is empty); SQL statement:
+select u1_0.id,u1_0.email,u1_0.nome_completo,u1_0.perfil,u1_0.regiao,u1_0.reset_password_token,u1_0.reset_password_token_expiry,u1_0.senha from usuario u1_0 where u1_0.email=? [42104-224]
+2025-09-22 21:31:21.143707-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USUARIO" not found (this database is empty); SQL statement:
+select u1_0.id,u1_0.email,u1_0.nome_completo,u1_0.perfil,u1_0.regiao,u1_0.reset_password_token,u1_0.reset_password_token_expiry,u1_0.senha from usuario u1_0 where u1_0.email=? [42104-224]
+2025-09-22 21:31:51.439190-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USUARIO" not found (this database is empty); SQL statement:
+select u1_0.id,u1_0.email,u1_0.nome_completo,u1_0.perfil,u1_0.regiao,u1_0.reset_password_token,u1_0.reset_password_token_expiry,u1_0.senha from usuario u1_0 where u1_0.email=? [42104-224]
+2025-09-22 22:21:45.835881-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-09-22 22:21:45.909597-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-09-22 22:21:45.978274-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]

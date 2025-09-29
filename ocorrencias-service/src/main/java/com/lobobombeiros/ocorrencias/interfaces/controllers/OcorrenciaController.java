@@ -3,6 +3,7 @@ package com.lobobombeiros.ocorrencias.interfaces.controllers;
 import com.lobobombeiros.ocorrencias.application.dto.OcorrenciaDTO;
 import com.lobobombeiros.ocorrencias.application.services.OcorrenciaService;
 import com.lobobombeiros.ocorrencias.domain.OcorrenciaTipo;
+import com.lobobombeiros.ocorrencias.domain.Regiao;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,8 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -28,25 +30,30 @@ public class OcorrenciaController {
 
     @PostMapping
     public ResponseEntity<OcorrenciaDTO> criar(@RequestBody OcorrenciaDTO dto) {
-        return ResponseEntity.ok(ocorrenciaService.criar(dto));
+        OcorrenciaDTO created = ocorrenciaService.criar(dto);
+        return ResponseEntity.created(URI.create("/api/ocorrencias/" + created.getId())).body(created);
     }
 
     @GetMapping
     public ResponseEntity<Page<OcorrenciaDTO>> listar(
             @RequestParam(required = false) String status,
-            @RequestParam(required = false) String regiao,
+            @RequestParam(required = false) Regiao regiao,
+            @RequestParam(required = false) String cidade,
             @RequestParam(required = false) OcorrenciaTipo tipo,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicio,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFim,
             Pageable pageable) {
-        return ResponseEntity.ok(ocorrenciaService.listar(status, regiao, tipo, dataInicio, dataFim, pageable));
+        return ResponseEntity.ok(ocorrenciaService.listar(status, regiao, cidade, tipo, dataInicio, dataFim, pageable));
     }
 
     @GetMapping("/dashboard")
     public ResponseEntity<Map<String, Object>> getDashboardStats(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicio,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFim) {
-        return ResponseEntity.ok(ocorrenciaService.getDashboardStats(dataInicio, dataFim));
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim) {
+        // Converte para início e fim do dia
+        var startDateTime = dataInicio.atStartOfDay();
+        var endDateTime = dataFim.atTime(23, 59, 59);
+        return ResponseEntity.ok(ocorrenciaService.getDashboardStats(startDateTime, endDateTime));
     }
 
     @GetMapping("/export/csv")

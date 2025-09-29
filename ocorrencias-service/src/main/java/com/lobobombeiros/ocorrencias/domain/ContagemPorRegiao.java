@@ -1,5 +1,4 @@
 package com.lobobombeiros.ocorrencias.domain;
 
-public record ContagemPorRegiao(String regiao, long total) {
+public record ContagemPorRegiao(Regiao regiao, long total) {
 }
-
