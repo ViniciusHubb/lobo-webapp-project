@@ -1,5 +1,7 @@
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\usuarios-service\src\main\java\com\lobobombeiros\usuariosservice\application\dto\UsuarioResponse.java
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\usuarios-service\src\main\java\com\lobobombeiros\usuariosservice\application\service\EmailService.java
+E:\Prog\Intellij\Faculdade\Lobo-bombeiros\usuarios-service\src\main\java\com\lobobombeiros\usuariosservice\application\controller\AuthController.java
+E:\Prog\Intellij\Faculdade\Lobo-bombeiros\usuarios-service\src\main\java\com\lobobombeiros\usuariosservice\infrastructure\security\JwtUtil.java
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\usuarios-service\src\main\java\com\lobobombeiros\usuariosservice\application\mapper\UsuarioMapper.java
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\usuarios-service\src\main\java\com\lobobombeiros\usuariosservice\UsuariosServiceApplication.java
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\usuarios-service\src\main\java\com\lobobombeiros\usuariosservice\application\controller\UsuarioController.java
@@ -8,6 +10,8 @@ E:\Prog\Intellij\Faculdade\Lobo-bombeiros\usuarios-service\src\main\java\com\lob
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\usuarios-service\src\main\java\com\lobobombeiros\usuariosservice\application\dto\UsuarioRequest.java
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\usuarios-service\src\main\java\com\lobobombeiros\usuariosservice\application\dto\EmailRequest.java
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\usuarios-service\src\main\java\com\lobobombeiros\usuariosservice\domain\model\Perfil.java
+E:\Prog\Intellij\Faculdade\Lobo-bombeiros\usuarios-service\src\main\java\com\lobobombeiros\usuariosservice\application\dto\LoginRequest.java
+E:\Prog\Intellij\Faculdade\Lobo-bombeiros\usuarios-service\src\main\java\com\lobobombeiros\usuariosservice\infrastructure\security\JwtAuthenticationFilter.java
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\usuarios-service\src\main\java\com\lobobombeiros\usuariosservice\SwaggerConfig.java
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\usuarios-service\src\main\java\com\lobobombeiros\usuariosservice\infrastructure\init\DataInitializer.java
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\usuarios-service\src\main\java\com\lobobombeiros\usuariosservice\application\dto\RedefinirSenhaRequest.java

@@ -1,7 +1,10 @@
+com\lobobombeiros\usuariosservice\application\dto\LoginRequest.class
 com\lobobombeiros\usuariosservice\application\dto\RedefinirSenhaRequest.class
+com\lobobombeiros\usuariosservice\application\controller\AuthController.class
 com\lobobombeiros\usuariosservice\SwaggerConfig.class
 com\lobobombeiros\usuariosservice\UsuariosServiceApplication.class
 com\lobobombeiros\usuariosservice\application\dto\UsuarioRequest.class
+com\lobobombeiros\usuariosservice\application\controller\AuthController$JwtResponse.class
 com\lobobombeiros\usuariosservice\domain\model\Usuario.class
 com\lobobombeiros\usuariosservice\application\dto\InternalUserResponse.class
 com\lobobombeiros\usuariosservice\application\dto\EmailRequest.class
@@ -13,6 +16,8 @@ com\lobobombeiros\usuariosservice\infrastructure\init\DataInitializer.class
 com\lobobombeiros\usuariosservice\infrastructure\security\SecurityConfig.class
 com\lobobombeiros\usuariosservice\application\service\UsuarioService.class
 com\lobobombeiros\usuariosservice\application\mapper\UsuarioMapper.class
+com\lobobombeiros\usuariosservice\infrastructure\security\JwtUtil.class
 com\lobobombeiros\usuariosservice\domain\repository\UsuarioRepository.class
 com\lobobombeiros\usuariosservice\application\service\EmailService.class
 com\lobobombeiros\usuariosservice\application\dto\UsuarioResponse.class
+com\lobobombeiros\usuariosservice\infrastructure\security\JwtAuthenticationFilter.class

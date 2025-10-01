@@ -113,3 +113,78 @@
     * [cite_start]Avaliação 360[cite: 169].
 * **Final:**
     * [cite_start]Avaliação Teórica (100% da nota)[cite: 171].
+
+# CBMPE - Coleta e Gestão de Ocorrências
+
+## Documentação da API
+
+### Autenticação
+- `POST /api/login`  
+  Autentica usuário.  
+  **Body:** `{ usuario, senha }`  
+  **Retorno:** `{ token }`
+
+### Usuários
+- `GET /api/usuarios`  
+  Lista usuários.
+- `POST /api/usuarios`  
+  Cria usuário.
+- `PUT /api/usuarios/:id`  
+  Atualiza usuário.
+- `DELETE /api/usuarios/:id`  
+  Remove usuário.
+
+### Ocorrências
+- `GET /api/ocorrencias`  
+  Lista ocorrências (filtros: tipo, data, status).
+- `POST /api/ocorrencias`  
+  Cria ocorrência.
+- `GET /api/ocorrencias/:id`  
+  Detalhes da ocorrência.
+- `PUT /api/ocorrencias/:id`  
+  Atualiza ocorrência.
+- `DELETE /api/ocorrencias/:id`  
+  Remove ocorrência.
+
+### Mídias
+- `POST /api/ocorrencias/:id/midia`  
+  Adiciona foto/vídeo à ocorrência.
+- `GET /api/ocorrencias/:id/midia`  
+  Lista mídias da ocorrência.
+
+### Relatórios
+- `GET /api/relatorios`  
+  Exporta dados (CSV/PDF).
+
+---
+
+## Modelo de Dados (Mermaid)
+
+```mermaid
+erDiagram
+    USUARIO {
+      int id
+      string nome
+      string email
+      string senha
+      string perfil
+    }
+    OCORRENCIA {
+      int id
+      string tipo
+      datetime data_hora
+      string descricao
+      string status
+      int usuario_id
+      float latitude
+      float longitude
+    }
+    MIDIA {
+      int id
+      string tipo
+      string url
+      int ocorrencia_id
+    }
+    USUARIO ||--o{ OCORRENCIA : registra
+    OCORRENCIA ||--o{ MIDIA : possui
+```

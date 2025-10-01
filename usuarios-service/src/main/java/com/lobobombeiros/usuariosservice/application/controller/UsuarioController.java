@@ -7,12 +7,16 @@ import com.lobobombeiros.usuariosservice.application.dto.UsuarioRequest;
 import com.lobobombeiros.usuariosservice.application.dto.UsuarioResponse;
 import com.lobobombeiros.usuariosservice.application.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Usuários", description = "Endpoints para gestão de usuários")
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
