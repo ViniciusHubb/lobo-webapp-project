@@ -1,11 +1,8 @@
-version: '3.8'
 services:
   db:
     image: postgres:16
-    environment:
-      POSTGRES_DB: lobo
-      POSTGRES_USER: usuario
-      POSTGRES_PASSWORD: senha
+    env_file:
+      - ./.env
     ports:
       - "5432:5432"
     volumes:
@@ -13,43 +10,56 @@ services:
 
   discovery-service:
     build: ./discovery-service
+    env_file:
+      - ./.env
     ports:
       - "8761:8761"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka/
     depends_on:
       - db
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/lobo
-      SPRING_DATASOURCE_USERNAME: usuario
-      SPRING_DATASOURCE_PASSWORD: senha
 
   usuarios-service:
     build: ./usuarios-service
+    env_file:
+      - ./.env
     ports:
       - "8081:8081"
     depends_on:
       - db
       - discovery-service
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/lobo
-      SPRING_DATASOURCE_USERNAME: usuario
-      SPRING_DATASOURCE_PASSWORD: senha
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka/
+      SPRING_MAIL_HOST: ${SPRING_MAIL_HOST}
+      SPRING_MAIL_PORT: ${SPRING_MAIL_PORT}
+      SPRING_MAIL_USERNAME: ${SPRING_MAIL_USERNAME}
+      SPRING_MAIL_PASSWORD: ${SPRING_MAIL_PASSWORD}
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: ${SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH}
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: ${SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE}
+      JWT_SECRET: ${JWT_SECRET}
 
   ocorrencias-service:
     build: ./ocorrencias-service
+    env_file:
+      - ./.env
     ports:
       - "8082:8082"
     depends_on:
       - db
       - discovery-service
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/lobo
-      SPRING_DATASOURCE_USERNAME: usuario
-      SPRING_DATASOURCE_PASSWORD: senha
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka/
 
   api-gateway:
     build: ./api-gateway
+    env_file:
+      - ./.env
     ports:
       - "8080:8080"
     depends_on:
@@ -58,4 +68,3 @@ services:
       - ocorrencias-service
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka/
-
