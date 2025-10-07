@@ -1,190 +1,294 @@
-# Projeto Integrador: App para Coleta e Gestão de Ocorrências - CBMPE
+# 🚒 Sistema de Gestão de Ocorrências - CBMPE
 
-## Visão Geral do Projeto
-
-[cite_start]O projeto foca no desenvolvimento de um aplicativo para a coleta e gestão de dados de ocorrências em campo para o Corpo de Bombeiros Militar de Pernambuco (CBMPE)[cite: 15].
-
-[cite_start]A solução é composta por um aplicativo móvel multiplataforma (Android/IOS/PWA) e um painel administrativo web[cite: 16]. As principais funcionalidades incluem:
-* [cite_start]Registro padronizado e em tempo real das ocorrências, com funcionamento offline[cite: 17].
-* [cite_start]Captura de fotos, vídeos, localização GPS e assinaturas digitais[cite: 18].
-* [cite_start]Integração com o banco de dados central do CBMPE para análises e estatísticas[cite: 19].
-* [cite_start]Acompanhamento das ocorrências em tempo real[cite: 20].
-* [cite_start]Exportação de dados para relatórios e sistemas internos[cite: 21].
-
-[cite_start]O impacto esperado é a melhoria na precisão e rapidez dos registros, redução de erros, maior eficiência operacional e alinhamento com as diretrizes de transformação digital do Governo de Pernambuco[cite: 22].
+Sistema para coleta e gestão de dados de ocorrências em campo para o Corpo de Bombeiros Militar de Pernambuco (CBMPE).
 
 ---
 
-## Cronograma de Entregas
+## 📖 Sobre o Projeto
 
-* [cite_start]**Primeira Entrega:** 08/10/2025 (Web App - Plataforma de Gestão e Análise) [cite: 23, 24]
-* [cite_start]**Segunda Entrega:** 03/12/2025 (Mobile App - App Para Registro e Consulta) [cite: 27, 28]
+Aplicativo para registro e gestão de ocorrências do CBMPE, composto por:
 
----
+- **Aplicativo móvel multiplataforma** (Android/iOS/PWA)
+- **Painel administrativo web**
+- **API REST com microserviços**
 
-## Features do Projeto
+### Tecnologias
+
+* **Backend:** Java 21, Spring Boot 3.2.0, Spring Cloud
+* **Database:** PostgreSQL 16
+
+* **Infraestrutura:** Docker, Docker Compose, Eureka
+
+
+
+
+
+### ✨ Funcionalidades
 
 ### Painel Web (Admin/Estatísticas)
-* **W-01 | [cite_start]Login & Perfis (admin, analista, chefe) - M1** [cite: 38]
-    * [cite_start]**Aceitação:** Perfis distintos limitam o acesso a dados e funcionalidades[cite: 39].
-* **W-02 | [cite_start]Lista & Filtros de Ocorrências - M2** [cite: 40]
-    * [cite_start]**Aceitação:** Permite filtrar por período, tipo, região, status e possui paginação[cite: 41].
-* **W-03 | [cite_start]Visualização de Detalhes - M2** [cite: 42, 43]
-    * [cite_start]**Aceitação:** Exibe todos os campos, mídias, localização, timeline e permite baixar anexos[cite: 44].
-* **W-04 | [cite_start]Relatórios Básicos & Exportação (CSV/PDF) - M2** [cite: 45]
-    * [cite_start]**Aceitação:** Gera e exporta relatórios com métricas selecionadas[cite: 46].
-* **W-05 | [cite_start]Gestão de Usuários - M2** [cite: 47, 48]
-    * [cite_start]**Aceitação:** CRUD de usuários, redefinição de senha e vinculação de perfis[cite: 49].
-* **W-06 | [cite_start]Auditoria & Logs - M2** [cite: 50]
-    * [cite_start]**Aceitação:** Rastreia as ações dos usuários com filtros por evento[cite: 51].
-* **W-07 | [cite_start]Dashboard Operacional (KPI simples) - M2** [cite: 52]
-    * [cite_start]**Aceitação:** Apresenta cards e gráficos de ocorrências por tipo, região e turno[cite: 53].
-* **W-08 | [cite_start]Catálogo/Form Builder (campos configuráveis) - Futuro** [cite: 54]
-    * [cite_start]**Aceitação:** Permite criar ou alterar campos de formulário sem a necessidade de reempacotar o aplicativo[cite: 55].
+
+- **Login & Perfis** - Controle de acesso (admin, analista, chefe)
+- **Lista & Filtros de Ocorrências** - Busca por período, tipo, região, status com paginação
+- **Visualização de Detalhes** - Campos completos, mídias, localização e timeline
+- **Relatórios & Exportação** - Geração e exportação em CSV/PDF
+- **Gestão de Usuários** - CRUD completo e redefinição de senha
+- **Auditoria & Logs** - Rastreamento de ações dos usuários
+- **Dashboard Operacional** - KPIs com gráficos por tipo, região e turno
 
 ### App de Campo (Mobile)
-* **F-01 | [cite_start]Autenticação & Perfis (operador, chefe, admin) - M1** [cite: 62]
-    * [cite_start]**Descrição:** Login com credenciais institucionais, bloqueio por tentativas e logout[cite: 63].
-* **F-02 | [cite_start]Registro de Ocorrência (formulário padrão) - M1** [cite: 65]
-    * [cite_start]**Descrição:** Formulário com campos obrigatórios (tipo, data/hora, viatura, equipe, descrição) e opcionais[cite: 66].
-* **F-03 | [cite_start]Modo Offline (cache + fila de sincronização) - M1** [cite: 69]
-    * [cite_start]**Descrição:** Armazena ocorrências localmente e sincroniza ao restabelecer a conexão[cite: 71].
-* **F-04 | [cite_start]Captura GPS (geolocalização no ato) - M1** [cite: 74]
-    * [cite_start]**Descrição:** Obtém coordenadas, precisão e carimbo de data/hora[cite: 75].
-* **F-05 | [cite_start]Captura de Foto - M1** [cite: 77]
-    * [cite_start]**Descrição:** Tira fotos a partir do aplicativo, com compressão e metadados[cite: 78].
-* **F-06 | [cite_start]Assinatura Digital (vitimado/testemunha) - M1** [cite: 81]
-    * [cite_start]**Descrição:** Coleta de assinatura na tela, vinculada ao registro da ocorrência[cite: 82].
-* **F-07 | [cite_start]Validações de Formulário - M1** [cite: 84]
-    * [cite_start]**Descrição:** Validação para campos obrigatórios, máscaras (CPF/telefone), ranges e formatos[cite: 85].
-* **F-08 | [cite_start]Lista de Ocorrências (meus registros) - M1** [cite: 87]
-    * [cite_start]**Descrição:** Tela que lista as ocorrências do usuário com status (sincronizado/pendente)[cite: 88].
-* **F-09 | [cite_start]Edição Antes do Envio - M1** [cite: 90]
-    * [cite_start]**Descrição:** Permite editar registros que estão pendentes de sincronização[cite: 91].
-* **F-10 | [cite_start]Captura de Vídeo - M2** [cite: 99, 100]
-    * [cite_start]**Descrição:** Gravação de vídeos curtos com compressão e limite de tamanho[cite: 101].
-* **F-11 | [cite_start]Sincronização com Resolução de Conflitos - M2** [cite: 103]
-    * [cite_start]**Descrição:** Utiliza a estratégia "last-write-wins" com log e alerta o usuário em caso de conflitos[cite: 104].
-* **F-12 | [cite_start]Linha do Tempo da Ocorrência - M2** [cite: 107, 108]
-    * [cite_start]**Descrição:** Apresenta todos os eventos da ocorrência em ordem cronológica[cite: 110].
-* **F-13 | [cite_start]Mapa In-App (pontos de ocorrência) - M2** [cite: 112]
-    * [cite_start]**Descrição:** Visualização em mapa das ocorrências do turno do usuário[cite: 113].
-* **F-14 | [cite_start]Push Notifications (atualização/atribuição) - M2** [cite: 115]
-    * [cite_start]**Descrição:** Notifica sobre novas atribuições ou alterações de status[cite: 116].
-* **F-15 | [cite_start]Acessibilidade - M2** [cite: 118]
-    * [cite_start]**Descrição:** Inclui alto contraste, fontes escaláveis e leitura por voz[cite: 119].
-* **F-16 | [cite_start]Modo Treinamento (sandbox) - Futuro** [cite: 122]
-    * [cite_start]**Descrição:** Ambiente simulado para capacitação, sem afetar dados reais[cite: 124].
-* **F-17 | [cite_start]Escaneio de QR/Barcodes (equipamentos) - Futuro** [cite: 126]
-    * [cite_start]**Descrição:** Permite vincular recursos e equipamentos à ocorrência[cite: 127].
+
+- **Autenticação & Perfis** - Login institucional com bloqueio por tentativas
+- **Registro de Ocorrência** - Formulário padronizado com validações
+- **Modo Offline** - Cache local com sincronização automática
+- **Captura GPS** - Geolocalização em tempo real
+- **Captura de Foto/Vídeo** - Com compressão e metadados
+- **Assinatura Digital** - Coleta de assinaturas de envolvidos
+- **Lista de Ocorrências** - Visualização dos registros com status de sincronização
+- **Edição Offline** - Edição de registros pendentes
+- **Sincronização com Conflitos** - Resolução automática (last-write-wins)
+- **Linha do Tempo** - Histórico de eventos da ocorrência
+- **Mapa In-App** - Visualização de ocorrências no mapa
+- **Push Notifications** - Alertas de novas atribuições
 
 ---
 
-## Detalhes das Entregas
+## 🚀 Como Rodar o Projeto
 
-### [cite_start]**Entrega 1 (08/10/2025): PWA + API + Hardware + Backend** [cite: 133]
-* [cite_start]Protótipo funcional do PWA para registro de ocorrências (formulários básicos e modo offline)[cite: 134].
-* [cite_start]Primeira versão da API REST integrada ao banco de dados[cite: 135].
-* [cite_start]Integração inicial com hardware (GPS, câmera, assinatura digital)[cite: 136].
-* [cite_start]Estrutura de backend para autenticação e armazenamento de dados[cite: 137].
-* [cite_start]Relatório técnico inicial com a arquitetura do sistema e fluxo de dados[cite: 138].
+### Pré-requisitos
 
-### [cite_start]**Entrega 2 (03/12/2025): React Native + Backend CRUD + Hardware** [cite: 143]
-* [cite_start]Aplicativo em React Native com funcionalidades avançadas (fotos, vídeos, assinaturas)[cite: 145].
-* [cite_start]Implementação completa do CRUD de ocorrências e usuários no backend[cite: 146].
-* [cite_start]Integração plena com hardware (GPS em tempo real, câmera, armazenamento offline)[cite: 147].
-* [cite_start]Painel web administrativo com relatórios estatísticos e exportação de dados[cite: 148].
-* [cite_start]Testes de usabilidade e validação com militares do CBMPE[cite: 148].
+- Java 21+
+- Maven 3.8+
+- Docker & Docker Compose
+- Git
 
-## Critérios de Avaliação
+### Instalação
 
-| Critério                                                                   | [cite_start]Entrega 1 (08/10) [cite: 154] | [cite_start]Entrega 2 (03/12) [cite: 154] |
+1. **Clone o repositório**
+
+```bash
+git clone https://github.com/seu-usuario/lobo-bombeiros.git
+cd lobo-bombeiros
+```
+
+2. **Configure o arquivo `.env`**
+
+```env
+POSTGRES_DB=cbmpe_db
+POSTGRES_USER=cbmpe_user
+POSTGRES_PASSWORD=sua_senha
+
+JWT_SECRET=sua_chave_jwt_secreta
+
+SPRING_MAIL_HOST=smtp.gmail.com
+SPRING_MAIL_PORT=587
+SPRING_MAIL_USERNAME=seu_email@gmail.com
+SPRING_MAIL_PASSWORD=sua_senha_app
+```
+
+3. **Build do projeto**
+
+```bash
+mvn clean package -DskipTests
+```
+
+4. **Inicie os serviços**
+
+```bash
+docker-compose up -d
+```
+
+5. **Verificar status**
+
+```bash
+docker-compose ps
+```
+
+### Acessar os Serviços
 
 
-## Sistema de Avaliação
+| Serviço                   | URL                                   | Descrição              |
+| -------------------------- | ------------------------------------- | ------------------------ |
+| **API Gateway**            | http://localhost:8080                 | Entrada principal da API |
+| **Eureka Dashboard**       | http://localhost:8761                 | Service Discovery        |
+| **Usuários Service**      | http://localhost:8081                 | Gestão de usuários     |
+| **Ocorrências Service**   | http://localhost:8082                 | Gestão de ocorrências  |
+| **Swagger (Usuários)**    | http://localhost:8081/swagger-ui.html | Documentação API       |
+| **Swagger (Ocorrências)** | http://localhost:8082/swagger-ui.html | Documentação API       |
 
-* **1ª Avaliação:**
-    * [cite_start]Presença + Atividades/Listas (40% da nota)[cite: 163].
-    * [cite_start]Projeto + Apresentação (60% da nota)[cite: 164].
-    * [cite_start]Avaliação 360[cite: 165].
-* **2ª Avaliação:**
-    * [cite_start]Presença + Atividades/Listas (40% da nota)[cite: 167].
-    * [cite_start]Projeto + Apresentação (60% da nota)[cite: 168].
-    * [cite_start]Avaliação 360[cite: 169].
-* **Final:**
-    * [cite_start]Avaliação Teórica (100% da nota)[cite: 171].
+### Comandos Úteis
 
-# CBMPE - Coleta e Gestão de Ocorrências
+```bash
+# Ver logs
+docker-compose logs -f usuarios-service
 
-## Documentação da API
+# Parar serviços
+docker-compose down
 
-### Autenticação
-- `POST /api/login`  
-  Autentica usuário.  
-  **Body:** `{ usuario, senha }`  
-  **Retorno:** `{ token }`
+# Rebuild após alterações
+docker-compose up -d --build usuarios-service
 
-### Usuários
-- `GET /api/usuarios`  
-  Lista usuários.
-- `POST /api/usuarios`  
-  Cria usuário.
-- `PUT /api/usuarios/:id`  
-  Atualiza usuário.
-- `DELETE /api/usuarios/:id`  
-  Remove usuário.
+# Limpar dados (remove volumes)
+docker-compose down -v
+```
 
-### Ocorrências
-- `GET /api/ocorrencias`  
-  Lista ocorrências (filtros: tipo, data, status).
-- `POST /api/ocorrencias`  
-  Cria ocorrência.
-- `GET /api/ocorrencias/:id`  
-  Detalhes da ocorrência.
-- `PUT /api/ocorrencias/:id`  
-  Atualiza ocorrência.
-- `DELETE /api/ocorrencias/:id`  
-  Remove ocorrência.
+### Executar Localmente (sem Docker)
 
-### Mídias
-- `POST /api/ocorrencias/:id/midia`  
-  Adiciona foto/vídeo à ocorrência.
-- `GET /api/ocorrencias/:id/midia`  
-  Lista mídias da ocorrência.
+```bash
+# 1. PostgreSQL
+docker run -d --name postgres-cbmpe \
+  -e POSTGRES_DB=cbmpe_db \
+  -e POSTGRES_USER=cbmpe_user \
+  -e POSTGRES_PASSWORD=senha \
+  -p 5432:5432 postgres:16
 
-### Relatórios
-- `GET /api/relatorios`  
-  Exporta dados (CSV/PDF).
+# 2. Discovery Service
+cd discovery-service && mvn spring-boot:run
+
+# 3. Usuarios Service
+cd usuarios-service && mvn spring-boot:run
+
+# 4. Ocorrencias Service
+cd ocorrencias-service && mvn spring-boot:run
+
+# 5. API Gateway
+cd api-gateway && mvn spring-boot:run
+```
 
 ---
 
-## Modelo de Dados (Mermaid)
+## 📊 Arquitetura e Modelo de Dados
+
+### Arquitetura de Microserviços
+
+```mermaid
+graph TD
+    A[Frontend React/PWA :3000] -->|HTTP| B[API Gateway :8080]
+    B --> C[Discovery Service Eureka :8761]
+    B --> D[Usuarios Service :8081]
+    B --> E[Ocorrencias Service :8082]
+    D --> F[(PostgreSQL :5432)]
+    E --> F
+  
+    style A fill:#61dafb
+    style B fill:#6db33f
+    style C fill:#e74c3c
+    style D fill:#6db33f
+    style E fill:#6db33f
+    style F fill:#336791
+```
+
+### Modelo de Dados
 
 ```mermaid
 erDiagram
     USUARIO {
-      int id
-      string nome
-      string email
-      string senha
-      string perfil
+        int id PK
+        string nome
+        string email UK
+        string senha
+        string perfil
+        string matricula
+        boolean ativo
+        datetime created_at
+        datetime updated_at
     }
+  
     OCORRENCIA {
-      int id
-      string tipo
-      datetime data_hora
-      string descricao
-      string status
-      int usuario_id
-      float latitude
-      float longitude
+        int id PK
+        string tipo
+        datetime data_hora
+        string descricao
+        string status
+        int usuario_id FK
+        float latitude
+        float longitude
+        string endereco
+        string viatura
+        string equipe
+        datetime created_at
+        datetime updated_at
     }
+  
     MIDIA {
-      int id
-      string tipo
-      string url
-      int ocorrencia_id
+        int id PK
+        string tipo
+        string url
+        string nome_arquivo
+        long tamanho
+        int ocorrencia_id FK
+        datetime created_at
     }
+  
+    AUDITORIA {
+        int id PK
+        int usuario_id FK
+        string acao
+        string entidade
+        int entidade_id
+        string detalhes
+        datetime created_at
+    }
+  
     USUARIO ||--o{ OCORRENCIA : registra
     OCORRENCIA ||--o{ MIDIA : possui
+    USUARIO ||--o{ AUDITORIA : gera
 ```
+
+---
+
+## 📝 API Endpoints
+
+### Autenticação
+
+```bash
+POST /auth/login              # Login
+POST /auth/register           # Cadastro
+POST /auth/refresh            # Renovar token
+```
+
+### Usuários
+
+```bash
+GET    /usuarios              # Listar usuários
+POST   /usuarios              # Criar usuário
+GET    /usuarios/{id}         # Buscar por ID
+PUT    /usuarios/{id}         # Atualizar
+DELETE /usuarios/{id}         # Deletar
+POST   /usuarios/solicitar-redefinicao-senha
+POST   /usuarios/redefinir-senha
+```
+
+### Ocorrências
+
+```bash
+GET    /ocorrencias           # Listar (filtros: tipo, data, status)
+POST   /ocorrencias           # Criar
+GET    /ocorrencias/{id}      # Buscar por ID
+PUT    /ocorrencias/{id}      # Atualizar
+DELETE /ocorrencias/{id}      # Deletar
+POST   /ocorrencias/{id}/midia     # Adicionar mídia
+GET    /ocorrencias/{id}/midia     # Listar mídias
+```
+
+### Relatórios
+
+```bash
+GET    /relatorios            # Exportar (CSV/PDF)
+```
+
+---
+
+## 🔧 Configuração CORS
+
+O backend está configurado para aceitar requisições do frontend em:
+
+- `http://localhost:3000`
+- `http://127.0.0.1:3000`
+
+---
+
+## 👥 Equipe
+
+Projeto Integrador - Faculdade SENAC Pernambuco
+
+</div>
