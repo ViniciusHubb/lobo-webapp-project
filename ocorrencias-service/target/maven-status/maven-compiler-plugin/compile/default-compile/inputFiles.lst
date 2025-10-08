@@ -1,4 +1,5 @@
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\ocorrencias-service\src\main\java\com\lobobombeiros\ocorrencias\infrastructure\init\DataInitializer.java
+E:\Prog\Intellij\Faculdade\Lobo-bombeiros\ocorrencias-service\src\main\java\com\lobobombeiros\ocorrencias\infrastructure\security\JwtUtil.java
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\ocorrencias-service\src\main\java\com\lobobombeiros\ocorrencias\domain\OcorrenciaTipo.java
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\ocorrencias-service\src\main\java\com\lobobombeiros\ocorrencias\interfaces\controllers\OcorrenciaController.java
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\ocorrencias-service\src\main\java\com\lobobombeiros\ocorrencias\application\services\OcorrenciaService.java
@@ -8,6 +9,7 @@ E:\Prog\Intellij\Faculdade\Lobo-bombeiros\ocorrencias-service\src\main\java\com\
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\ocorrencias-service\src\main\java\com\lobobombeiros\ocorrencias\application\dto\OcorrenciaDTO.java
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\ocorrencias-service\src\main\java\com\lobobombeiros\ocorrencias\application\services\CustomUserDetailsService.java
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\ocorrencias-service\src\main\java\com\lobobombeiros\ocorrencias\OcorrenciasServiceApplication.java
+E:\Prog\Intellij\Faculdade\Lobo-bombeiros\ocorrencias-service\src\main\java\com\lobobombeiros\ocorrencias\infrastructure\security\JwtAuthenticationFilter.java
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\ocorrencias-service\src\main\java\com\lobobombeiros\ocorrencias\domain\Ocorrencia.java
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\ocorrencias-service\src\main\java\com\lobobombeiros\ocorrencias\application\client\UserClient.java
 E:\Prog\Intellij\Faculdade\Lobo-bombeiros\ocorrencias-service\src\main\java\com\lobobombeiros\ocorrencias\domain\ContagemPorTipo.java

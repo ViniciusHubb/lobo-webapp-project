@@ -10,9 +10,11 @@ com\lobobombeiros\ocorrencias\application\services\OcorrenciaService.class
 com\lobobombeiros\ocorrencias\domain\ContagemPorTipo.class
 com\lobobombeiros\ocorrencias\interfaces\controllers\OcorrenciaController.class
 com\lobobombeiros\ocorrencias\domain\OcorrenciaRepository.class
+com\lobobombeiros\ocorrencias\infrastructure\security\JwtUtil.class
 com\lobobombeiros\ocorrencias\OcorrenciasServiceApplication.class
 com\lobobombeiros\ocorrencias\application\dto\OcorrenciaDTO.class
 com\lobobombeiros\ocorrencias\config\JpaAuditingConfiguration.class
+com\lobobombeiros\ocorrencias\infrastructure\security\JwtAuthenticationFilter.class
 com\lobobombeiros\ocorrencias\application\client\UserClient.class
 com\lobobombeiros\ocorrencias\infrastructure\init\DataInitializer.class
 com\lobobombeiros\ocorrencias\application\services\CustomUserDetailsService.class
