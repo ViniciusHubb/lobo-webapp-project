@@ -3,10 +3,11 @@ com\lobobombeiros\ocorrencias\domain\Regiao.class
 com\lobobombeiros\ocorrencias\domain\ContagemPorRegiao.class
 com\lobobombeiros\ocorrencias\domain\Ocorrencia.class
 com\lobobombeiros\ocorrencias\domain\ContagemPorTurno.class
+com\lobobombeiros\ocorrencias\config\DataLoader.class
 com\lobobombeiros\ocorrencias\domain\OcorrenciaTipo.class
-com\lobobombeiros\ocorrencias\SwaggerConfig.class
 com\lobobombeiros\ocorrencias\application\mapper\OcorrenciaMapper.class
 com\lobobombeiros\ocorrencias\application\services\OcorrenciaService.class
+com\lobobombeiros\ocorrencias\config\OpenApiConfig.class
 com\lobobombeiros\ocorrencias\domain\ContagemPorTipo.class
 com\lobobombeiros\ocorrencias\interfaces\controllers\OcorrenciaController.class
 com\lobobombeiros\ocorrencias\domain\OcorrenciaRepository.class
