@@ -1,2 +1,4 @@
+com\lobobombeiros\apigateway\config\CorsGlobalConfiguration.class
 com\lobobombeiros\apigateway\SwaggerConfig.class
+com\lobobombeiros\apigateway\config\SecurityConfig.class
 com\lobobombeiros\apigateway\ApiGatewayApplication.class

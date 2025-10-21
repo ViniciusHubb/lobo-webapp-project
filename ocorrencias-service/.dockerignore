@@ -1,0 +1,10 @@
+# Ignora tudo dentro de target
+target/
+
+# Mas permite o JAR final
+!target/*.jar
+
+# Outras coisas que não precisa ir para a imagem
+.idea/
+*.iml
+*.log
